@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <title>Title</title>
+    <style>
+        #center{
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            text-align: center;
+            background-color: darksalmon;
+        }
+        #button{
+            width:150px;
+            height: 50px;
+            position: absolute;
+            top: 15px;
+            font-size: 14px;
+            color: red;
+            background-color: aquamarine;
+        }
+        #mask{
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 2;
+        }
+        #dialog{
+            width: 100vw;
+            height: 60vh;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 3;
+            background-color: olivedrab;
+        }
+        #close{
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            border-radius: 50%;
+            position: absolute;
+            top:0;
+            right: 12px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="center"></div>
+</body>
+<script>
+    window.onload=function(){
+        var center=document.getElementById("center");
+        //按钮
+        var button=document.createElement("button");
+        button.id="button";
+        button.innerHTML="click me";
+       center.appendChild(button);
+        //遮罩层
+
+        button.addEventListener("click",function(){
+            var mask=document.createElement("div");
+            mask.id="mask";
+            //弹出层
+            var dialog=document.createElement("div");
+            dialog.id="dialog";
+            //关闭按钮
+            var close=document.createElement("span");
+            close.id="close";
+            close.innerHTML="X";
+            //空的文档碎片
+            var frag=document.createDocumentFragment();
+            dialog.appendChild(close);
+            frag.appendChild(dialog);
+            frag.appendChild(mask);
+            var e=event||window.event;
+            center.appendChild(frag);
+            e.cancelBubble|| e.stopPropagation();
+        });
+        center.addEventListener("click",function(){
+            hidden();
+        });
+        function hidden(){
+            var e= event||window.event
+            var target= e.target|| e.srcElement;
+            if(target.id!="dialog"){
+                center.removeChild(document.getElementById("mask"));
+                center.removeChild(document.getElementById("dialog"));
+            }
+        }
+    }
+</script>
+</html>
